@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="45dp"
 
-        android:text="Choose a new city"
+        android:text="@string/choose_a_new_city"
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +24,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="216dp"
         android:paddingStart="5sp"
+        android:paddingEnd="5sp"
         android:text="@string/_0_c"
         android:textColor="#515151"
         android:textSize="50sp"
@@ -39,6 +40,7 @@
         android:layout_height="160dp"
         android:text="@string/extended_data_about_weather_condition"
         android:paddingStart="5sp"
+        android:paddingEnd="5sp"
         app:layout_constraintBottom_toTopOf="@+id/newCityButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -58,7 +60,7 @@
         app:layout_constraintVertical_bias="0.49"
         tools:srcCompat="@tools:sample/avatars"
         android:src="@drawable/images"
-        />
+        android:contentDescription="@string/weather_now" />
 
     <TextView
         android:id="@+id/cityName"
@@ -67,7 +69,7 @@
         android:layout_marginBottom="20dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Piatra Neamtgeles"
+        android:text="@string/piatra_neamtgeles"
         app:layout_constraintBottom_toTopOf="@+id/temperature"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

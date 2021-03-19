@@ -6,4 +6,8 @@
     <string name="e_mail">E-mail</string>
     <string name="extended_data_about_weather_condition">Extended data about weather condition</string>
     <string name="_0_c">0*C</string>
+    <string name="choose_a_new_city">Choose a new city</string>
+    <string name="piatra_neamtgeles">Piatra Neamtgeles</string>
+    <string name="weather_now">Weather now</string>
+    <string name="add_a_new_city">Add a new city</string>
 </resources>
