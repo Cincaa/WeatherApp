@@ -10,21 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WetherApp">
 
-
-        <activity android:name=".LogInActivity">
-
-        </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SeeMoreActivity" >
-
-        </activity>
-        <activity android:name=".SavedCitiesActivity">
+        <activity android:name=".LogInActivity"/>
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SeeMoreActivity" >
+
+        </activity>
+
     </application>
 
 </manifest>
