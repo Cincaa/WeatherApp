@@ -12,6 +12,7 @@
     <string name="add_a_new_city">Add a new city</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_e_mail">Enter E-mail</string>
-    <string name="register">Register</string>
     <string name="enter_password">Enter Password</string>
+    <string name="name">Name</string>
+    <string name="register">Register</string>
 </resources>
