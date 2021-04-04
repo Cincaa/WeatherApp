@@ -12,6 +12,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -37,6 +38,7 @@ public class LogInActivity extends AppCompatActivity{
     private CallbackManager callbackManager;
     private LoginButton loginButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class LogInActivity extends AppCompatActivity{
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.setPermissions(Arrays.asList("user_gender, user_friends"));
-
+//        loginButton.setLoginBehavior(LoginBehavior.WEB_VIEW_ONLY);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

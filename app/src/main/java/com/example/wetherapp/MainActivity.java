@@ -7,16 +7,20 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
+import com.facebook.LoginStatusCallback;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
 //    };
-//
+
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
@@ -68,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
 //
     private void gotoLogIn(){
 //       TODO: Custom logOut button doesn't work, fix that
+        
         LoginManager.getInstance().logOut();
+//        accessTokenTracker.stopTracking();
         Intent intent = new Intent(this,LogInActivity.class);
         startActivity(intent);
+
     }
 }
