@@ -15,4 +15,8 @@
     <string name="enter_password">Enter Password</string>
     <string name="name">Name</string>
     <string name="register">Register</string>
+
+    <string name="facebook_app_id">935865400563578</string>
+    <string name="fb_login_protocol_scheme">fb935865400563578</string>
+
 </resources>

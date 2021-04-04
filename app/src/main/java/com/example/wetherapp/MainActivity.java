@@ -10,6 +10,12 @@ import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginBehavior;
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navbar);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomePage()).commit();
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -43,7 +50,25 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+//    AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+//        @Override
+//        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+//            if(currentAccessToken == null){
+//                LoginManager.getInstance().logOut();
+//
+//            }
+//        }
+//    };
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        accessTokenTracker.stopTracking();
+//    }
+//
     private void gotoLogIn(){
+//       TODO: Custom logOut button doesn't work, fix that
+        LoginManager.getInstance().logOut();
         Intent intent = new Intent(this,LogInActivity.class);
         startActivity(intent);
     }
