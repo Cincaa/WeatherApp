@@ -4,16 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends Fragment {
+    Button button;
     public static List<DayOfWeekModel> weekList = new ArrayList<>();
     public HomePage() {
         super(R.layout.home_page);
@@ -22,8 +26,18 @@ public class HomePage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return super.onCreateView(inflater,container,savedInstanceState);
-
+        View v = super.onCreateView(inflater,container,savedInstanceState);
+        button = v.findViewById(R.id.See_more);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.home_page,new SeeMoreActivity());
+                fragmentTransaction.commit();
+            }
+        });
+        return v;
     }
 
     @Override
