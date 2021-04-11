@@ -22,4 +22,6 @@ public class DayOfWeekModel {
     public String getMaxTemp() {
         return maxTemp;
     }
+
+
 }

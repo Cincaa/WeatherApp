@@ -48,7 +48,7 @@ public class LogInActivity extends AppCompatActivity{
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.setPermissions(Arrays.asList("user_gender, user_friends"));
-//        loginButton.setLoginBehavior(LoginBehavior.WEB_VIEW_ONLY);
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

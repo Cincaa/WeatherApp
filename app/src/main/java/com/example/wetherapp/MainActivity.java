@@ -11,6 +11,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
@@ -19,6 +25,13 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
@@ -31,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navbar);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomePage()).commit();
+        volleyGet();
+
 
     }
 
@@ -54,29 +69,49 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
-//    AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
-//        @Override
-//        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-//            if(currentAccessToken == null){
-//                LoginManager.getInstance().logOut();
-//
-//            }
-//        }
-//    };
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        accessTokenTracker.stopTracking();
-//    }
-//
     private void gotoLogIn(){
 //       TODO: Custom logOut button doesn't work, fix that
         
         LoginManager.getInstance().logOut();
-//        accessTokenTracker.stopTracking();
         Intent intent = new Intent(this,LogInActivity.class);
         startActivity(intent);
+
+    }
+
+    public void volleyGet(){
+        String url = "https://api.openweathermap.org/data/2.5/forecast?id=524901&appid=d958fa2856e3c17c0eedcec1edc1561a";
+        List<String> jsonResponses = new ArrayList<>();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("list");
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        JSONArray jsonArray1 = jsonObject.getJSONArray("weather");
+                        JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
+                        String weatherCondition = jsonObject1.getString("main");
+
+//                      jsonResponses.add();
+                        Log.d("debug",weatherCondition);
+                    }
+                } catch (JSONException e) {
+                    Log.d("debug","1");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("debug","2");
+                error.printStackTrace();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
 
     }
 }

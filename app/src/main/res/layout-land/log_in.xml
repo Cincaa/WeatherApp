@@ -10,12 +10,13 @@
         android:id="@+id/NameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="45dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/name"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,8 +38,8 @@
         android:id="@+id/btnLogin"
         android:layout_width="124dp"
         android:layout_height="56dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="32dp"
         android:text="@string/log_in"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordText" />
@@ -47,10 +48,10 @@
         android:id="@+id/btnRegister"
         android:layout_width="124dp"
         android:layout_height="56dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="32dp"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintHorizontal_bias="0.063"
         app:layout_constraintStart_toEndOf="@+id/btnLogin"
         app:layout_constraintTop_toBottomOf="@+id/PasswordText" />
 
@@ -61,8 +62,9 @@
         android:layout_gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PasswordText" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+        app:layout_constraintVertical_bias="0.439" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
