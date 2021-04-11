@@ -45,6 +45,7 @@ public class LogInActivity extends AppCompatActivity{
         setContentView(R.layout.log_in);
 
         loginButton = findViewById(R.id.login_button);
+
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.setPermissions(Arrays.asList("user_gender, user_friends"));
@@ -99,6 +100,19 @@ public class LogInActivity extends AppCompatActivity{
                 startActivity(registerScreen);
             }
         });
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Boolean bool = extras.getBoolean("LOG_OUT");
+            if(bool){
+                loginButton.performClick();
+            }
+            //The key argument here must match that used in the other activity
+        }
+
     }
 //    Received information from user
     @Override

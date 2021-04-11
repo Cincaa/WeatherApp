@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -75,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
         
         LoginManager.getInstance().logOut();
         Intent intent = new Intent(this,LogInActivity.class);
+        intent.putExtra("LOG_OUT", true);
         startActivity(intent);
+
 
     }
 
