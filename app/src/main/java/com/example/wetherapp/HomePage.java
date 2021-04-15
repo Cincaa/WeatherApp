@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class HomePage extends Fragment {
-    Button button;
+    public Button button;
+    public TextView city;
+    public TextView time;
+    public TextView temp;
     public static List<DayOfWeekModel> weekList = new ArrayList<>();
     public HomePage() {
         super(R.layout.home_page);
@@ -25,8 +34,12 @@ public class HomePage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Bundle bundle = getArguments();
         View v = super.onCreateView(inflater,container,savedInstanceState);
+        city = v.findViewById(R.id.City);
+        time = v.findViewById(R.id.Time);
+        temp = v.findViewById(R.id.Temperature);
+        city.setText(bundle.getString("city"));
         button = v.findViewById(R.id.See_more);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +55,7 @@ public class HomePage extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         initListDayOfWeek();
         RecyclerView rv = view.findViewById(R.id.recycle_view_resume_week);
