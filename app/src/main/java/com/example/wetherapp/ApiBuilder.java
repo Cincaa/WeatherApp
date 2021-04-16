@@ -12,6 +12,7 @@ public class ApiBuilder {
     private static ApiService apiService;
     private final static String BASE_URL = "https://api.openweathermap.org";
     public final static String APP_ID = "d958fa2856e3c17c0eedcec1edc1561a";
+    public final static String UNITS = "metric";
 
     static ApiService getInstance(){
         if(apiService == null){
