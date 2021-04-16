@@ -11,6 +11,7 @@ public interface ApiService {
     @GET("data/2.5/forecast")
     Call<WeatherApiModel> getWeather(
             @Query("q") String city,
+            @Query("units") String units,
             @Query("appid") String appid
     );
 }
