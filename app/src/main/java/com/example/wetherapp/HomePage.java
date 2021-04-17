@@ -1,10 +1,12 @@
 package com.example.wetherapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,11 +29,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomePage extends Fragment {
+public class HomePage extends Fragment implements CurrentDayOperations,ResumeWeekOperations{
     public Button button;
     public TextView city;
     public TextView time;
     public TextView temp;
+    public ImageView img;
     public static List<DayOfWeekModel> weekList = new ArrayList<>();
     public HomePage() {
         super(R.layout.home_page);
@@ -36,10 +44,19 @@ public class HomePage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        Bundle bundle = getArguments();
         View v = super.onCreateView(inflater,container,savedInstanceState);
+
         city = v.findViewById(R.id.City);
         time = v.findViewById(R.id.Time);
         temp = v.findViewById(R.id.Temperature);
-//        city.setText(bundle.getString("city"));
+        img = v.findViewById(R.id.imgIcon);
+        city.setText("Bucharest");
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("HH");
+        String currentHour = dateFormat.format(date);
+        time.setText(currentHour+":00");
+        String hour = String.valueOf(3*(Integer.valueOf(currentHour)/3));
+        new FindByHourCurrentDayOperation(this).execute(hour);
+
         button = v.findViewById(R.id.See_more);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,22 +75,74 @@ public class HomePage extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        //TODO vezi ca nu se face weeklist
         super.onViewCreated(view, savedInstanceState);
-        initListDayOfWeek();
+        new GetAllResumeWeekOperation(this).execute(new Object());
         RecyclerView rv = view.findViewById(R.id.recycle_view_resume_week);
         DayOfWeekAdapter adapter = new DayOfWeekAdapter(weekList);
         rv.setAdapter(adapter);
     }
 
-    private void initListDayOfWeek(){
-        weekList.add(new DayOfWeekModel("Today","0°C","3°C"));
-        weekList.add(new DayOfWeekModel("Luni","0°C","3°C"));
-        weekList.add(new DayOfWeekModel("Marti","0°C","3°C"));
-        weekList.add(new DayOfWeekModel("Miercuri","0°C","3°C"));
-        weekList.add(new DayOfWeekModel("Joi","0°C","3°C"));
-        weekList.add(new DayOfWeekModel("Vineri","0°C","3°C"));
-        weekList.add(new DayOfWeekModel("Sambata","0°C","3°C"));
+    @Override
+    public void insertCurrentDay(String result) {
+
     }
 
+    @Override
+    public void getAllCurrentDay(List<CurrentDay> currentDayList) {
 
+    }
+
+    @Override
+    public void deleteCurrentDay(String result) {
+
+    }
+
+    @Override
+    public void findByHourCurrentDay(CurrentDay currentDay) {
+        if (currentDay != null){
+            temp.setText(currentDay.temp+"°C");
+            String desc = currentDay.description;
+            //todo vezi cum modifici pozele in fct de descriere
+            /*switch (desc){
+                case "Clouds":
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.clouds,getActivity().getApplicationContext().getTheme()));
+                    break;
+                case "Rain":
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.rain,getActivity().getApplicationContext().getTheme()));
+                    break;
+                case "Snow":
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.snow,getActivity().getApplicationContext().getTheme()));
+                    break;
+                case "Clear":
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.sun,getActivity().getApplicationContext().getTheme()));
+                    break;
+            }*/
+        }
+
+    }
+
+    @Override
+    public void insertResumeWeek(String result) {
+
+    }
+
+    @Override
+    public void deleteResumeWeek(String result) {
+
+    }
+
+    @Override
+    public void getAllResumeWeek(List<ResumeWeek> resumeWeekList) {
+        for(ResumeWeek rw : resumeWeekList)
+        {
+            DayOfWeekModel dw = new DayOfWeekModel(rw.day,rw.tempMin,rw.tempMax);
+            weekList.add(dw);
+        }
+    }
+
+    @Override
+    public void getByDateResumeWeek(ResumeWeek resumeWeek) {
+
+    }
 }
