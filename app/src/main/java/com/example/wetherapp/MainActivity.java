@@ -6,122 +6,47 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.FacebookSdk;
+import com.facebook.LoginStatusCallback;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
-public class MainActivity extends AppCompatActivity implements CurrentDayOperations,ResumeWeekOperations{
+public class MainActivity extends AppCompatActivity {
 
-    public Bundle homePage_bundle = new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //volleyGet();
-        Call<WeatherApiModel> call = ApiBuilder.getInstance().getWeather(
-                    "Bucharest",ApiBuilder.UNITS,ApiBuilder.APP_ID
-                );
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navbar);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomePage()).commit();
+        volleyGet();
 
-        call.enqueue(new Callback<WeatherApiModel>() {
-            @Override
-            public void onResponse(Call<WeatherApiModel> call, Response<WeatherApiModel> response) {
-                List<MomentOfDay> weather = response.body().getList();
-                new GetAllCurrentDayOperation(MainActivity.this).execute(new Object());
-                new GetAllResumeWeekOperation(MainActivity.this).execute(new Object());
-                String date = takeDate();
-                int idCurentDay = 0;
-                for (MomentOfDay momentOfDay : weather)
-                {
-                    String dt = momentOfDay.getDt_txt();
-                    if(dt.contains(date))
-                    {
-                        String[] split = dt.split(" ");
-                        String hour = split[1].substring(0,2);
-                        String data = split[0];
-                        String temp = momentOfDay.getMain().getTemp();
-                        String tempFeels = momentOfDay.getMain().getFeels_like();
-                        String humidity = momentOfDay.getMain().getHumidity();
-                        String descripton = momentOfDay.getWeather().get(0).getDescription();
-                        String speedWind = momentOfDay.getWind().getSpeed();
-                        CurrentDay currentDay = new CurrentDay(idCurentDay,data,hour,temp,tempFeels,humidity,descripton,speedWind);
-                        new InsertCurrentDayOperation(MainActivity.this).execute(currentDay);
-                        idCurentDay = idCurentDay + 1;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                List<String> days = new ArrayList<>();
-                days.add("Sunday");
-                days.add("Monday");
-                days.add("Tuesday");
-                days.add("Wednesda");
-                days.add("Thursday");
-                days.add("Friday");
-                days.add("Saturday");
-                int nrDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                String day = "Today";
-                Double tempMin = Double.valueOf(weather.get(0).getMain().getTemp_min());
-                Double tempMax = Double.valueOf(weather.get(0).getMain().getTemp_max());
-                String dt = weather.get(0).getDt_txt();
-                String[] split = dt.split(" ");
-                date = split[0];
-                int id = 0;
-                for(MomentOfDay momentOfDay : weather){
-                    dt = momentOfDay.getDt_txt();
-                    if (dt.contains(date)){
-                        Double tempMaxAux = Double.valueOf(momentOfDay.getMain().getTemp_max());
-                        Double tempMinAux = Double.valueOf(momentOfDay.getMain().getTemp_min());
-                        if (tempMaxAux > tempMax)
-                        {
-                            tempMax = tempMaxAux;
-                        }
-                        if (tempMinAux < tempMin){
-                            tempMin = tempMinAux;
-                        }
-                    }
-                    else{
-                        ResumeWeek rw = new ResumeWeek(id,date,day,tempMin.toString(),tempMax.toString());
-                        new InsertResumeWeekOperation(MainActivity.this).execute(rw);
-                        id = id + 1;
-                        nrDay = nrDay + 1;
-                        if (nrDay == 8){
-                            nrDay = 1;
-                        }
-                        day = days.get(nrDay-1);
-                        tempMax = Double.valueOf(momentOfDay.getMain().getTemp_max());
-                        tempMin = Double.valueOf(momentOfDay.getMain().getTemp_min());
-                        split = dt.split(" ");
-                        date = split[0];
-                    }
-
-                }
-                BottomNavigationView bottomNav = findViewById(R.id.bottom_navbar);
-                bottomNav.setOnNavigationItemSelectedListener(navListener);
-                Fragment frg = new HomePage();
-                frg.setArguments(homePage_bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,frg).commit();
-            }
-
-            @Override
-            public void onFailure(Call<WeatherApiModel> call, Throwable t) {
-
-            }
-        });
 
     }
 
@@ -133,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
                     switch (item.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new HomePage();
-                            selectedFragment.setArguments(homePage_bundle);
                             break;
                         case R.id.nav_saved_cities:
                             selectedFragment = new SavedCitiesActivity();
@@ -142,101 +66,47 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
                             gotoLogIn();
                             break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+                    if(selectedFragment != null) {
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
+                                        R.anim.enter_left_to_right,R.anim.exit_left_to_right)
+                                .replace(R.id.fragment_container, selectedFragment)
+                                .commit();
+
+                    }
                     return true;
                 }
             };
 
     private void gotoLogIn(){
-//       TODO: Custom logOut button doesn't work, fix that
         
         LoginManager.getInstance().logOut();
         Intent intent = new Intent(this,LogInActivity.class);
         intent.putExtra("LOG_OUT", true);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
 
     }
-     public String takeDate(){
-         Date date = Calendar.getInstance().getTime();
-         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-         String strDate = dateFormat.format(date);
-         return strDate;
-     }
 
-    @Override
-    public void insertCurrentDay(String result) {
-        Toast.makeText(this,result, Toast.LENGTH_LONG).show();
-    }
+    public void volleyGet(){
+        String url = "https://api.openweathermap.org/data/2.5/forecast?id=524901&appid=d958fa2856e3c17c0eedcec1edc1561a";
+        List<String> jsonResponses = new ArrayList<>();
 
-    @Override
-    public void getAllCurrentDay(List<CurrentDay> currentDayList) {
-        if (currentDayList.size() > 0){
-            String d = currentDayList.get(0).data;
-            String date = takeDate();
-            if (!d.contains(date)){
-                for (CurrentDay cd : currentDayList){
-                    new DeleteCurrentDayOperation(MainActivity.this).execute(cd);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void deleteCurrentDay(String result) {
-
-    }
-
-    @Override
-    public void findByHourCurrentDay(CurrentDay currentDay) {
-
-    }
-
-    @Override
-    public void insertResumeWeek(String result) {
-        Log.d("debug",result);
-    }
-
-    @Override
-    public void deleteResumeWeek(String result) {
-
-    }
-
-    @Override
-    public void getAllResumeWeek(List<ResumeWeek> resumeWeekList) {
-        if (resumeWeekList.size() > 0){
-            String d = resumeWeekList.get(0).data;
-            String date = takeDate();
-            if (!d.contains(date)){
-                for (ResumeWeek rw : resumeWeekList){
-                    new DeleteResumeWeekOperation(MainActivity.this).execute(rw);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void getByDateResumeWeek(ResumeWeek resumeWeek) {
-
-    }
-
-    /*public void volleyGet(){
-        String url = "https://api.openweathermap.org/data/2.5/forecast?q=Bucharest&appid=d958fa2856e3c17c0eedcec1edc1561a";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonArray = response.getJSONArray("list");
-                    String city = response.getJSONObject("city").getString("name");
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        String data = jsonObject.getString("dt_txt");
-                        Double temp = jsonObject.getJSONObject("main").getDouble("temp");
-                        Double minTemp = jsonObject.getJSONObject("main").getDouble("temp_min");
-                        Double maxTemp = jsonObject.getJSONObject("main").getDouble("temp_max");
-                        String weatherCondition = jsonObject.getJSONArray("weather").getJSONObject(0).getString("main");
-                        weatherApi.add(new WeatherApiModel(city,data,temp,weatherCondition,minTemp,maxTemp));
+                        JSONArray jsonArray1 = jsonObject.getJSONArray("weather");
+                        JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
+                        String weatherCondition = jsonObject1.getString("main");
+
+//                      jsonResponses.add();
+                        Log.d("debug",weatherCondition);
                     }
                 } catch (JSONException e) {
                     Log.d("debug","1");
@@ -253,5 +123,5 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
 
         requestQueue.add(jsonObjectRequest);
 
-    }*/
+    }
 }

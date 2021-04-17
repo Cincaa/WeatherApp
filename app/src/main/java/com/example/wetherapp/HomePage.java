@@ -34,18 +34,20 @@ public class HomePage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+//        Bundle bundle = getArguments();
         View v = super.onCreateView(inflater,container,savedInstanceState);
         city = v.findViewById(R.id.City);
         time = v.findViewById(R.id.Time);
         temp = v.findViewById(R.id.Temperature);
-        city.setText(bundle.getString("city"));
+//        city.setText(bundle.getString("city"));
         button = v.findViewById(R.id.See_more);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
+                        R.anim.enter_left_to_right,R.anim.exit_left_to_right);
                 fragmentTransaction.replace(R.id.home_page,new SeeMoreActivity());
                 fragmentTransaction.commit();
             }

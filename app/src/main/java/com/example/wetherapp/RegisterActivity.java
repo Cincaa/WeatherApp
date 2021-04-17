@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Intent loginScreen = new Intent(RegisterActivity.this, LogInActivity.class);
                 startActivity(loginScreen);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
             }
         });

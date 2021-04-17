@@ -55,6 +55,7 @@ public class LogInActivity extends AppCompatActivity{
             public void onSuccess(LoginResult loginResult) {
                 Intent homePage = new Intent(LogInActivity.this, MainActivity.class);
                 startActivity(homePage);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
 
             @Override
@@ -86,6 +87,7 @@ public class LogInActivity extends AppCompatActivity{
                 if(!userDetails.contains("Username or Passoword is Incorrect.")) {
                     Intent homePage = new Intent(LogInActivity.this, MainActivity.class);
                     startActivity(homePage);
+                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Username or Passoword is Incorrect.",Toast.LENGTH_SHORT).show();
@@ -98,6 +100,7 @@ public class LogInActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent registerScreen = new Intent(LogInActivity.this, RegisterActivity.class);
                 startActivity(registerScreen);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
     }
@@ -108,7 +111,12 @@ public class LogInActivity extends AppCompatActivity{
         if (extras != null) {
             Boolean bool = extras.getBoolean("LOG_OUT");
             if(bool){
-                loginButton.performClick();
+                AccessToken token;
+                token = AccessToken.getCurrentAccessToken();
+
+                if (token != null) {
+                    loginButton.performClick();
+                }
             }
             //The key argument here must match that used in the other activity
         }

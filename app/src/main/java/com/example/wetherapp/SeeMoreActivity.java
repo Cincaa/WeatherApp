@@ -30,12 +30,15 @@ import java.util.List;
 
 public class SeeMoreActivity extends Fragment {
 
+    public TextView temperature;
     public SeeMoreActivity() { super(R.layout.see_more); }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = super.onCreateView(inflater, container, savedInstanceState);
+        temperature = v.findViewById(R.id.temperature);
+        temperature.setText("-92837218 *C");
         return v;
 
     }
