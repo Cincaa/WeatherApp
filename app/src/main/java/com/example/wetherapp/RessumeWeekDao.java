@@ -12,6 +12,9 @@ public interface RessumeWeekDao {
     @Query("SELECT * FROM resumeWeek")
     List<ResumeWeek> getAll();
 
+    @Query("SELECT * FROM resumeweek WHERE ID LIKE :i ")
+    ResumeWeek getById(int i);
+
     @Query("SELECT * FROM resumeweek where data like :d")
     ResumeWeek getByData(String d);
 

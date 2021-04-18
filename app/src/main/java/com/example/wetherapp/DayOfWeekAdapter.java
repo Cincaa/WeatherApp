@@ -15,7 +15,10 @@ public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayO
 
     private List<DayOfWeekModel> dataset;
 
-    public DayOfWeekAdapter(List<DayOfWeekModel> data){
+    public void submit(List<DayOfWeekModel> newlist){
+        dataset = newlist;
+        notifyDataSetChanged();
+}   public DayOfWeekAdapter(List<DayOfWeekModel> data){
         dataset = data;
     }
     @NonNull
