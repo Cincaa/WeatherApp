@@ -13,6 +13,8 @@ public interface CurrentDayDao {
     @Query("SELECT * FROM CurrentDay")
     List<CurrentDay> getAll();
 
+    @Query("SELECT * FROM CurrentDay WHERE id LIKE :i")
+    CurrentDay findById(int i);
     @Query("SELECT * FROM CurrentDay WHERE hour LIKE :h")
     CurrentDay findByHour(String h);
 

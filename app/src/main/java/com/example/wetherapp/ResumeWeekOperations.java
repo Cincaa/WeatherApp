@@ -7,4 +7,5 @@ public interface ResumeWeekOperations {
     void deleteResumeWeek(String result);
     void getAllResumeWeek(List<ResumeWeek> resumeWeekList);
     void getByDateResumeWeek(ResumeWeek resumeWeek);
+    void findByIdResumeWeek(ResumeWeek resumeWeek);
 }

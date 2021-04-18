@@ -10,9 +10,9 @@ public class DeleteCurrentDayOperation extends AsyncTask<CurrentDay,Object,Strin
     }
 
     @Override
-    protected String doInBackground(CurrentDay... currentDays) {
+    protected String doInBackground(CurrentDay... CurrentDays) {
         try {
-            MyApp.getAppDatabase().currentDayDao().delete(currentDays);
+            MyApp.getAppDatabase().currentDayDao().delete(CurrentDays);
         }catch (Exception e)
         {
             return "error";

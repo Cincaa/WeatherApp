@@ -8,4 +8,5 @@ public interface CurrentDayOperations {
     void getAllCurrentDay(List<CurrentDay> currentDayList);
     void deleteCurrentDay(String result);
     void findByHourCurrentDay(CurrentDay currentDay);
+    void findByIdCurrentDay(CurrentDay currentDay);
 }

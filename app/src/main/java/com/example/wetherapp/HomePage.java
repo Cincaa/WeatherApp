@@ -35,6 +35,7 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     public TextView time;
     public TextView temp;
     public ImageView img;
+    public DayOfWeekAdapter adapter;
     public static List<DayOfWeekModel> weekList = new ArrayList<>();
     public HomePage() {
         super(R.layout.home_page);
@@ -77,10 +78,17 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
 
         //TODO vezi ca nu se face weeklist
         super.onViewCreated(view, savedInstanceState);
-        new GetAllResumeWeekOperation(this).execute(new Object());
         RecyclerView rv = view.findViewById(R.id.recycle_view_resume_week);
-        DayOfWeekAdapter adapter = new DayOfWeekAdapter(weekList);
+        new GetAllResumeWeekOperation(this).execute(new Object());
+        adapter = new DayOfWeekAdapter(weekList);
         rv.setAdapter(adapter);
+    }
+
+    private void initAdapter() {
+        for(int i=0;i<5;i++)
+        {
+            new FindByIdRessumeWeekOperation(this).execute(i);
+        }
     }
 
     @Override
@@ -123,6 +131,11 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     }
 
     @Override
+    public void findByIdCurrentDay(CurrentDay currentDay) {
+
+    }
+
+    @Override
     public void insertResumeWeek(String result) {
 
     }
@@ -139,10 +152,19 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
             DayOfWeekModel dw = new DayOfWeekModel(rw.day,rw.tempMin,rw.tempMax);
             weekList.add(dw);
         }
+        adapter.submit(weekList);
     }
 
     @Override
     public void getByDateResumeWeek(ResumeWeek resumeWeek) {
 
+    }
+
+    @Override
+    public void findByIdResumeWeek(ResumeWeek resumeWeek) {
+        if(resumeWeek != null){
+            DayOfWeekModel day = new DayOfWeekModel(resumeWeek.day,resumeWeek.tempMin,resumeWeek.tempMax);
+            weekList.add(day);
+        }
     }
 }

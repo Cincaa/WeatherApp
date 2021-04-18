@@ -57,8 +57,12 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
             @Override
             public void onResponse(Call<WeatherApiModel> call, retrofit2.Response<WeatherApiModel> response) {
                 List<MomentOfDay> weather = response.body().getList();
-                new GetAllCurrentDayOperation(MainActivity.this).execute(new Object());
-                new GetAllResumeWeekOperation(MainActivity.this).execute(new Object());
+                for(int i = 0; i < 8; i ++ ){
+                    new FindByIdCurrentDayOperation(MainActivity.this).execute(0);
+                }
+
+                //new GetAllCurrentDayOperation(MainActivity.this).execute(new Object());
+                //new GetAllResumeWeekOperation(MainActivity.this).execute(new Object());
                 String date = takeDate();
                 int idCurentDay = 0;
                 for (MomentOfDay momentOfDay : weather)
@@ -195,15 +199,7 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
 
     @Override
     public void getAllCurrentDay(List<CurrentDay> currentDayList) {
-        if (currentDayList.size() > 0){
-            String d = currentDayList.get(0).data;
-            String date = takeDate();
-            if (!d.contains(date)){
-                for (CurrentDay cd : currentDayList){
-                    new DeleteCurrentDayOperation(MainActivity.this).execute(cd);
-                }
-            }
-        }
+
     }
 
     @Override
@@ -213,6 +209,22 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
 
     @Override
     public void findByHourCurrentDay(CurrentDay currentDay) {
+
+    }
+
+    @Override
+    public void findByIdCurrentDay(CurrentDay currentDay) {
+        if (currentDay != null) {
+            String d = currentDay.data;
+            String date = takeDate();
+            if (!d.contains(date)) {
+                new DeleteCurrentDayOperation(MainActivity.this).execute(currentDay);
+            }
+            else{
+                Log.d("debug","aceeasi data");
+            }
+        }
+
 
     }
 
@@ -241,6 +253,11 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
 
     @Override
     public void getByDateResumeWeek(ResumeWeek resumeWeek) {
+
+    }
+
+    @Override
+    public void findByIdResumeWeek(ResumeWeek resumeWeek) {
 
     }
 }
