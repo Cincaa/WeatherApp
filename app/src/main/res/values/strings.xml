@@ -21,7 +21,8 @@
     <string name="facebook_application_id">935865400563578</string>
     <string name="today">Today</string>
     <string name="_0_c_3_c">0°C/3°C</string>
-
+    <string name="bucharest">Bucharest</string>
+    <string name="city">City</string>
 
 
 </resources>

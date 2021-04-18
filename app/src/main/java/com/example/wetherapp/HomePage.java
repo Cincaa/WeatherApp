@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+//TODO: error la intrarea in homepage
 public class HomePage extends Fragment implements CurrentDayOperations,ResumeWeekOperations{
     public Button button;
     public TextView city;
@@ -76,7 +76,7 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        //TODO vezi ca nu se face weeklist
+
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rv = view.findViewById(R.id.recycle_view_resume_week);
         new GetAllResumeWeekOperation(this).execute(new Object());
@@ -111,8 +111,8 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
         if (currentDay != null){
             temp.setText(currentDay.temp+"°C");
             String desc = currentDay.description;
-            //todo vezi cum modifici pozele in fct de descriere
-            /*switch (desc){
+
+            switch (desc){
                 case "Clouds":
                     img.setImageDrawable(getResources().getDrawable(R.drawable.clouds,getActivity().getApplicationContext().getTheme()));
                     break;
@@ -125,7 +125,7 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
                 case "Clear":
                     img.setImageDrawable(getResources().getDrawable(R.drawable.sun,getActivity().getApplicationContext().getTheme()));
                     break;
-            }*/
+            }
         }
 
     }
