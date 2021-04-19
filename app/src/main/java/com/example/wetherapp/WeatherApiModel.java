@@ -8,10 +8,12 @@ import java.util.List;
 public class WeatherApiModel {
     private String cnt;
     private List<MomentOfDay> list;
+    private City city;
 
-    public WeatherApiModel(String cnt, List<MomentOfDay> list) {
+    public WeatherApiModel(String cnt, List<MomentOfDay> list, City city) {
         this.cnt = cnt;
         this.list = list;
+        this.city = city;
     }
 
     public String getCnt() {
@@ -22,5 +24,7 @@ public class WeatherApiModel {
         return list;
     }
 
-
+    public City getCity() {
+        return city;
+    }
 }

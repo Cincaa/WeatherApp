@@ -51,7 +51,7 @@ public class SeeMoreActivity extends Fragment implements CurrentDayOperations {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         temperature = v.findViewById(R.id.temperature);
         img = v.findViewById(R.id.imageView);
-        city = v.findViewById(R.id.cityName);
+        //city = v.findViewById(R.id.cityName);
         weatherCondition = v.findViewById(R.id.weatherCondition);
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH");
@@ -66,6 +66,9 @@ public class SeeMoreActivity extends Fragment implements CurrentDayOperations {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        city = view.findViewById(R.id.cityName);
+        Bundle bundle = getArguments();
+        city.setText(bundle.getString("city"));
     }
 
     @Override
@@ -79,7 +82,7 @@ public class SeeMoreActivity extends Fragment implements CurrentDayOperations {
     }
 
     @Override
-    public void deleteCurrentDay(String result) {
+    public void deleteCurrentDay(Integer result) {
 
     }
 
@@ -87,7 +90,6 @@ public class SeeMoreActivity extends Fragment implements CurrentDayOperations {
     public void findByHourCurrentDay(CurrentDay currentDay) {
         if (currentDay != null) {
             //TODO: de inlocuit si aici orasul dat de locatie
-            city.setText("Bucharest");
             temperature.setText(currentDay.temp + "°C");
             String desc = currentDay.description;
 

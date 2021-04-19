@@ -6,7 +6,7 @@ import java.util.List;
 public interface CurrentDayOperations {
     void insertCurrentDay(String result);
     void getAllCurrentDay(List<CurrentDay> currentDayList);
-    void deleteCurrentDay(String result);
+    void deleteCurrentDay(Integer id);
     void findByHourCurrentDay(CurrentDay currentDay);
     void findByIdCurrentDay(CurrentDay currentDay);
 }

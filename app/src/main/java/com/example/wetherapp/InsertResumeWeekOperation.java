@@ -13,9 +13,9 @@ public class InsertResumeWeekOperation extends AsyncTask<ResumeWeek,Object,Strin
         try {
             MyApp.getAppDatabase().ressumeWeekDao().insertAll(resumeWeeks);
         }catch (Exception e){
-            return "error";
+            return "Error insert resumeWeek";
         }
-        return "accept";
+        return "Accept insert resumeWeek";
     }
 
     @Override

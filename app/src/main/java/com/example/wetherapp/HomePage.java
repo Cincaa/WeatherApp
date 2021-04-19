@@ -28,7 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TODO: error la intrarea in homepage
 public class HomePage extends Fragment implements CurrentDayOperations,ResumeWeekOperations{
     public Button button;
     public TextView city;
@@ -37,24 +36,21 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     public ImageView img;
     public DayOfWeekAdapter adapter;
     public static List<DayOfWeekModel> weekList = new ArrayList<>();
+    Bundle bundleSeeMore = new Bundle();
     public HomePage() {
         super(R.layout.home_page);
     }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        Bundle bundle = getArguments();
         View v = super.onCreateView(inflater,container,savedInstanceState);
 
-        city = v.findViewById(R.id.City);
         time = v.findViewById(R.id.Time);
         temp = v.findViewById(R.id.Temperature);
         img = v.findViewById(R.id.imgIcon);
-        city.setText("Bucharest");
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH");
         String currentHour = dateFormat.format(date);
-        time.setText(currentHour+":00");
         String hour = String.valueOf(3*(Integer.valueOf(currentHour)/3));
         new FindByHourCurrentDayOperation(this).execute(hour);
 
@@ -66,7 +62,9 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
                         R.anim.enter_left_to_right,R.anim.exit_left_to_right);
-                fragmentTransaction.replace(R.id.home_page,new SeeMoreActivity());
+                Fragment frg = new SeeMoreActivity();
+                frg.setArguments(bundleSeeMore);
+                fragmentTransaction.replace(R.id.home_page,frg);
                 fragmentTransaction.commit();
             }
         });
@@ -76,20 +74,21 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        String mes = bundle.getString("message");
 
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rv = view.findViewById(R.id.recycle_view_resume_week);
-        new GetAllResumeWeekOperation(this).execute(new Object());
+        city = view.findViewById(R.id.City);
+        city.setText(bundle.getString("city"));
+        bundleSeeMore.putString("city",bundle.getString("city"));
+        if (mes.equals("true")){
+            new GetAllResumeWeekOperation(this).execute(new Object());
+        }
         adapter = new DayOfWeekAdapter(weekList);
         rv.setAdapter(adapter);
     }
 
-    private void initAdapter() {
-        for(int i=0;i<5;i++)
-        {
-            new FindByIdRessumeWeekOperation(this).execute(i);
-        }
-    }
 
     @Override
     public void insertCurrentDay(String result) {
@@ -102,13 +101,14 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     }
 
     @Override
-    public void deleteCurrentDay(String result) {
+    public void deleteCurrentDay(Integer result) {
 
     }
 
     @Override
     public void findByHourCurrentDay(CurrentDay currentDay) {
         if (currentDay != null){
+            time.setText(currentDay.hour+":00");
             temp.setText(currentDay.temp+"°C");
             String desc = currentDay.description;
 
@@ -141,7 +141,7 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     }
 
     @Override
-    public void deleteResumeWeek(String result) {
+    public void deleteResumeWeek(Integer id) {
 
     }
 
