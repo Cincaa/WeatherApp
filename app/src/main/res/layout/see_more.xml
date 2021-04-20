@@ -7,18 +7,6 @@
     android:background="#dbe8f0">
 
 
-    <Button
-        android:id="@+id/newCityButton"
-        android:layout_width="315dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="36dp"
-
-        android:text="@string/choose_a_new_city"
-        app:cornerRadius="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/temperature"
         android:layout_width="360dp"
@@ -36,16 +24,16 @@
 
     <TextView
         android:id="@+id/weatherCondition"
-        android:layout_width="360dp"
-        android:layout_height="160dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="362dp"
+        android:layout_height="161dp"
+        android:layout_marginBottom="44dp"
         android:paddingStart="5sp"
         android:paddingEnd="5sp"
         android:text="@string/extended_data_about_weather_condition"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/newCityButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -62,8 +50,8 @@
 
     <TextView
         android:id="@+id/cityName"
-        android:layout_width="221dp"
-        android:layout_height="66dp"
+        android:layout_width="366dp"
+        android:layout_height="65dp"
         android:text="@string/bucharest"
         android:textSize="40dp"
         android:textStyle="bold"

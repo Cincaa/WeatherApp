@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#dbe8f0">
+
+    <EditText
+        android:id="@+id/textCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="City"
+        android:ems="12"
+        />
+
+    <Button
+        android:id="@+id/newCityButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="Find"
+        app:cornerRadius="12dp"
+        android:layout_alignTop="@+id/textCity"
+        android:layout_alignParentEnd="true"/>
+
+    <ImageView
+        android:id="@+id/imageNewCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textCity"
+        android:layout_marginTop="28dp"
+        android:contentDescription="@string/weather_now"
+        android:visibility="invisible"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tempNewCity"
+        android:layout_width="216dp"
+        android:layout_height="88dp"
+        android:layout_below="@+id/imageNewCity"
+        android:layout_marginTop="-216dp"
+        android:layout_marginEnd="84dp"
+        android:layout_toStartOf="@+id/newCityButton"
+        android:paddingStart="5sp"
+        android:paddingEnd="5sp"
+        android:textColor="#515151"
+        android:textSize="50dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/weatherCondition"
+        android:layout_width="505dp"
+        android:layout_height="132dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginBottom="16dp"
+        android:layout_toEndOf="@+id/imageNewCity"
+        android:paddingStart="5sp"
+        android:paddingEnd="5sp"
+        android:textSize="18sp" />
+</RelativeLayout>
