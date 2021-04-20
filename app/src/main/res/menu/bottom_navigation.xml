@@ -5,10 +5,6 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home"/>
     <item
-        android:id="@+id/nav_saved_cities"
-        android:icon="@drawable/ic_baseline_track_changes_24"
-        android:title="Change city"/>
-    <item
         android:id="@+id/nav_add_location"
         android:icon="@drawable/ic_baseline_add_location_24"
         android:title="Add city"/>

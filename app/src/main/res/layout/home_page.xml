@@ -17,8 +17,8 @@
 
         <TextView
             android:id="@+id/City"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="City"
             android:textSize="45dp"/>
 
@@ -60,15 +60,27 @@
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle_view_resume_week"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_below="@id/current_day"
         android:layout_marginTop="16dp"
-        android:background="#dbe8f0"
-
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:background="#dbe8f0">
+        <TextView
+            android:id="@+id/resume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 DAYS"
+            android:textSize="40dp"
+            android:layout_centerHorizontal="true"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_view_resume_week"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_below="@id/resume"
+            android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
