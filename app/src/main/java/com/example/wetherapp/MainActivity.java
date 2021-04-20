@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
                         bottomNav.setOnNavigationItemSelectedListener(navListener);
                         Fragment frg = new HomePage();
                         Bundle bundle = new Bundle();
-                        bundle.putString("message","true");
                         bundle.putString("city",city);
                         frg.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,frg).commit();
@@ -110,12 +109,6 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
             }
         });
 
-
-
-
-
-
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -127,12 +120,11 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
                         case R.id.nav_home:
                             selectedFragment = new HomePage();
                             Bundle bundle = new Bundle();
-                            bundle.putString("message","false");
                             bundle.putString("city",city);
                             selectedFragment.setArguments(bundle);
                             break;
-                        case R.id.nav_saved_cities:
-                            selectedFragment = new SavedCitiesActivity();
+                        case R.id.nav_add_location:
+                            selectedFragment = new NewCity();
                             break;
                         case R.id.nav_log_out:
                             gotoLogIn();
@@ -229,20 +221,6 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
     @Override
     public void findByHourCurrentDay(CurrentDay currentDay) {
 
-    }
-
-    @Override
-    public void findByIdCurrentDay(CurrentDay currentDay) {
-        if (currentDay != null) {
-            String d = currentDay.data;
-            String date = takeDate();
-            if (!d.contains(date)) {
-                new DeleteCurrentDayOperation(MainActivity.this).execute(currentDay);
-            }
-            else{
-                Log.d("debug","aceeasi data");
-            }
-        }
     }
 
     @Override
@@ -352,8 +330,4 @@ public class MainActivity extends AppCompatActivity implements CurrentDayOperati
 
     }
 
-    @Override
-    public void findByIdResumeWeek(ResumeWeek resumeWeek) {
-
-    }
 }

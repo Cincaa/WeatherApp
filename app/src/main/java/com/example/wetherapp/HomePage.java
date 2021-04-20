@@ -75,17 +75,18 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         Bundle bundle = getArguments();
-        String mes = bundle.getString("message");
 
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rv = view.findViewById(R.id.recycle_view_resume_week);
+
         city = view.findViewById(R.id.City);
         city.setText(bundle.getString("city"));
         bundleSeeMore.putString("city",bundle.getString("city"));
-        if (mes.equals("true")){
+        adapter = new DayOfWeekAdapter(weekList);
+        int cnt = adapter.getItemCount();
+        if (cnt == 0){
             new GetAllResumeWeekOperation(this).execute(new Object());
         }
-        adapter = new DayOfWeekAdapter(weekList);
         rv.setAdapter(adapter);
     }
 
@@ -130,10 +131,6 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
 
     }
 
-    @Override
-    public void findByIdCurrentDay(CurrentDay currentDay) {
-
-    }
 
     @Override
     public void insertResumeWeek(String result) {
@@ -158,13 +155,5 @@ public class HomePage extends Fragment implements CurrentDayOperations,ResumeWee
     @Override
     public void getByDateResumeWeek(ResumeWeek resumeWeek) {
 
-    }
-
-    @Override
-    public void findByIdResumeWeek(ResumeWeek resumeWeek) {
-        if(resumeWeek != null){
-            DayOfWeekModel day = new DayOfWeekModel(resumeWeek.day,resumeWeek.tempMin,resumeWeek.tempMax);
-            weekList.add(day);
-        }
     }
 }
