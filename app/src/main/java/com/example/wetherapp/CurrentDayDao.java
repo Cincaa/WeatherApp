@@ -22,6 +22,6 @@ public interface CurrentDayDao {
     void insertAll(CurrentDay...currentDays);
 
     @Delete
-    void delete(CurrentDay... currentDay);
+    void delete(CurrentDay currentDay);
 }
 

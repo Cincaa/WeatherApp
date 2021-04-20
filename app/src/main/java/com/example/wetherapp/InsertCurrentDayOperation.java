@@ -17,9 +17,9 @@ public class InsertCurrentDayOperation extends AsyncTask<CurrentDay,Object,Strin
             MyApp.getAppDatabase().currentDayDao().insertAll(currentDays);
         }catch (Exception e)
         {
-            return "error";
+            return "Error insert currentDay";
         }
-        return "succes";
+        return "Succes insert currentDay";
     }
 
     @Override

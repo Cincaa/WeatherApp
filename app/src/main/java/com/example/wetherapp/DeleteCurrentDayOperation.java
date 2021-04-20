@@ -2,7 +2,7 @@ package com.example.wetherapp;
 
 import android.os.AsyncTask;
 
-public class DeleteCurrentDayOperation extends AsyncTask<CurrentDay,Object,String> {
+public class DeleteCurrentDayOperation extends AsyncTask<CurrentDay,Object,Integer> {
     CurrentDayOperations listener;
 
     public DeleteCurrentDayOperation(CurrentDayOperations listener) {
@@ -10,14 +10,16 @@ public class DeleteCurrentDayOperation extends AsyncTask<CurrentDay,Object,Strin
     }
 
     @Override
-    protected String doInBackground(CurrentDay... CurrentDays) {
+    protected Integer doInBackground(CurrentDay... currentDays) {
+        Integer id = null;
         try {
-            MyApp.getAppDatabase().currentDayDao().delete(CurrentDays);
+            id = currentDays[0].id;
+            MyApp.getAppDatabase().currentDayDao().delete(currentDays[0]);
         }catch (Exception e)
         {
-            return "error";
+            return id;
         }
-        return "succes";
+        return id;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class DeleteCurrentDayOperation extends AsyncTask<CurrentDay,Object,Strin
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        listener.deleteCurrentDay(result);
+    protected void onPostExecute(Integer id) {
+        listener.deleteCurrentDay(id);
     }
 }

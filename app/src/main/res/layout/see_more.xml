@@ -65,7 +65,7 @@
         android:layout_width="221dp"
         android:layout_height="66dp"
         android:text="@string/bucharest"
-        android:textSize="40sp"
+        android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/temperature"
         app:layout_constraintEnd_toEndOf="parent"

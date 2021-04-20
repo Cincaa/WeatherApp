@@ -8,9 +8,17 @@ public interface ApiService {
 
     //https://api.openweathermap.org/data/2.5/forecast?q=Bucharest&units=metric&appid=d958fa2856e3c17c0eedcec1edc1561a
 
-    @GET("data/2.5/forecast")
+//    @GET("data/2.5/forecast")
+//    Call<WeatherApiModel> getWeather(
+//            @Query("q") String city,
+//            @Query("units") String units,
+//            @Query("appid") String appid
+//    );
+
+        @GET("data/2.5/forecast")
     Call<WeatherApiModel> getWeather(
-            @Query("q") String city,
+            @Query("lat") String lat,
+            @Query("lon") String lon,
             @Query("units") String units,
             @Query("appid") String appid
     );
